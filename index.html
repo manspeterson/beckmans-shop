@@ -55,7 +55,9 @@
               }
 
               $.ajax(settings).done(function (response) {
-                $('#qr-code').attr('value', response);
+                // $('#qr-code').attr('value', response);
+                document.getElementById('qr-code').setAttribute("value", response);
+                console.log(response.data);
               });
         });
       	$("#form").submit(function(e) {
