@@ -53,10 +53,11 @@
                 },
                 "processData": false,
                 "data": JSON.stringify(data),
-                "dataType" : "text/plain"
+                "dataType" : "image/jpeg"
               }
 
-              $.ajax(settings).done(function (response) {
+              $.ajax(settings).done(function (response, headers) {
+                console.log(headers);
                 // $('#qr-code').attr('value', response);
                 // document.getElementById('qr-code').setAttribute("value", response);
                 // console.log(response);
