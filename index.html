@@ -41,21 +41,21 @@
       <script type="text/javascript">
         $(function() {
             data = {"message" : {"value" : "asfjasfjasppa"}, "payee" : {"value" : "0704550605"}, "amount" : {"value" : 100}, "format" : "jpg", "size" : 400};
-            $.ajax({
-              type: "POST",
-              headers: {
-                  'Content-Type':'application/json'
-              }, async: true,
-              url: "https://www.swish.bankgirot.se/qrg-swish/api/v1/prefilled",
-              data: JSON.stringify(data),
-              success: function(response){
-                // $('#qr-code').attr('value', response.data)
-                console.log(response)
-                console.log("hej")
-               
-              },
-              dataType: "image/jpg"
-            });
+           var settings = {
+                "async": true,
+                "crossDomain": true,
+                "url": "https://www.swish.bankgirot.se/qrg-swish/api/v1/prefilled",
+                "method": "POST",
+                "headers": {
+                  "content-type": "application/json",
+                },
+                "processData": false,
+                "data": JSON.stringify(data)
+              }
+
+              $.ajax(settings).done(function (response) {
+                console.log(response);
+              });
         });
       	$("#form").submit(function(e) {
 		  e.preventDefault();
