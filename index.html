@@ -68,32 +68,31 @@
               return out;
           }
 
+          function swishQR(data) {
+            console.log(base64encode(data));
+          }
+
 
         $(function() {
-            data = {"message" : {"value" : "asfjasfjasppa"}, "payee" : {"value" : "0704550605"}, "amount" : {"value" : 100}, "format" : "jpg", "size" : 400};
-           var settings = {
-                "async": true,
-                "crossDomain": true,
-                "url": "/swish-api/",
-                "method": "POST",
-                "headers": {
-                  "content-type": "application/json",
-                  "Access-Control-Allow-Headers" : "x-requested-with"
-                },
-                "processData": false,
-                "data": JSON.stringify(data),
-                "contentType" : "image/jpeg"
-              }
+            data = {"message" : {"value" : "asfjasfjasppa"}, "payee" : {"value" : "0704550605"}, "amount" : {"value" : 100}, "format" : "png", "size" : 400};
+            $.ajax({
+              url: '/swish-api/',
+              type: 'post',
+              headers: {
+                  "content-type": "application/json; charset=utf-8",
+                  "cache-control": "no-cache",
+                  "accept": "application/json; image/png",
+                  "Authorization" : "Basic " +  btoa("user:pw"),
+              },
+              data: data;
+              mimeType: "text/plain; charset=x-user-defined",
+              responseType: 'arraybuffer',
+              success: swishQR,
+              error: function (request, status, error) {
+                console.log('Något gick snett');
+              },
+          });
 
-              $.ajax(settings).done(function (response, headers) {
-                console.log(headers);
-                // $('#qr-code').attr('value', response);
-                // document.getElementById('qr-code').setAttribute("value", response);
-                // console.log(response);
-                console.log(base64encode(response));
-                // console.log(response.data);
-                // console.log(response);
-              });
         });
       	$("#form").submit(function(e) {
 		  e.preventDefault();
