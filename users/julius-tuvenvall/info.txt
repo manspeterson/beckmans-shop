@@ -1,0 +1,5 @@
+namn: Julius Tuvenvall
+email: julius.tuvenvall@edu.beckmans.se
+swish-nr: 0704888006
+klass: VK20
+link: 2501/julius-tuvenvall/

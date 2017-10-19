@@ -53,7 +53,7 @@
                 },
                 "processData": false,
                 "data": JSON.stringify(data),
-                "contentType" : "image/jpeg; charset=ISO-8859-1"
+                "contentType" : "image/jpeg"
               }
 
               $.ajax(settings).done(function (response, headers) {
@@ -61,8 +61,9 @@
                 // $('#qr-code').attr('value', response);
                 // document.getElementById('qr-code').setAttribute("value", response);
                 // console.log(response);
-                console.log(response.data);
-                console.log(response);
+                console.log(unescape(encodeURIComponent(response));)
+                // console.log(response.data);
+                // console.log(response);
               });
         });
       	$("#form").submit(function(e) {
