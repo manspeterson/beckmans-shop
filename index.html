@@ -52,12 +52,14 @@
                   "Access-Control-Allow-Headers" : "x-requested-with"
                 },
                 "processData": false,
-                "data": JSON.stringify(data)
+                "data": JSON.stringify(data),
+                "dataType" : "image/jpg"
               }
 
               $.ajax(settings).done(function (response) {
                 // $('#qr-code').attr('value', response);
                 document.getElementById('qr-code').setAttribute("value", response);
+                console.log(response);
                 console.log(response.data);
               });
         });
