@@ -32,7 +32,7 @@
 		  	<input type="email" name="seller-email" value="mans.peterson@edu.beckmans.se" hidden>
 		  	<input type="number" name="seller-phone" value="0703550605" hidden>
 		  	<input type="number" name="price" value="150" hidden>
-		  	<input type="data" id="qr-code" name="qr-code" value="" hidden>
+		  	<input type="text" id="qr-code" name="qr-code" value="" hidden>
     
 		    <button type=”submit”>Send</button>
 		  </p>
@@ -40,6 +40,8 @@
 
     <script src="js/jquery-3.2.1.min.js"></script>
       <script type="text/javascript">
+        currentUser = {"swish-nr" : 0704550605}
+        currentProduct = {"title" : "anka", "price" : 150}
           function base64encode(str) {
               var CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
               var out = "", i = 0, len = str.length, c1, c2, c3;
@@ -69,38 +71,38 @@
           }
 
           function swishQR(data) {
-            console.log(base64encode(data));
+            console.log("data:image/png;base64," + base64encode(data));
           }
 
 
         $(function() {
-            data = {"message" : {"value" : "asfjasfjasppa"}, "payee" : {"value" : "0704550605"}, "amount" : {"value" : 100}, "format" : "png", "size" : 400};
-            $.ajax({
-              url: '/swish-api/',
-              type: 'post',
-              headers: {
-                  "content-type": "application/json; charset=utf-8",
-                  "cache-control": "no-cache",
-                  "accept": "application/json; image/png",
-                  "Authorization" : "Basic " +  btoa("user:pw"),
-              },
-              data: JSON.stringify(data),
-              mimeType: "text/plain; charset=x-user-defined",
-              responseType: 'arraybuffer',
-              success: swishQR,
-              error: function (request, status, error) {
-                console.log('Något gick snett');
-              },
-          });
+          //   data = {"message" : {"value" : "asfjasfjasppa"}, "payee" : {"value" : "0704550605"}, "amount" : {"value" : 100}, "format" : "png", "size" : 400};
+          //   $.ajax({
+          //     url: '/swish-api/',
+          //     type: 'post',
+          //     headers: {
+          //         "content-type": "application/json; charset=utf-8",
+          //         "cache-control": "no-cache",
+          //         "accept": "application/json; image/png",
+          //         "Authorization" : "Basic " +  btoa("user:pw"),
+          //     },
+          //     data: JSON.stringify(data),
+          //     mimeType: "text/plain; charset=x-user-defined",
+          //     responseType: 'arraybuffer',
+          //     success: swishQR,
+          //     error: function (request, status, error) {
+          //       console.log('Något gick snett');
+          //     },
+          // });
 
         });
-      	$("#form").submit(function(e) {
-		  e.preventDefault();
-
-		  var $form = $(this);
-		  $.post($form.attr("action"), $form.serialize()).then(function() {
-		    alert("Thank you!");
-		  });
+    	$("#form").submit(function(e) {
+    		  e.preventDefault();
+          $('#qr-code').attr('value', 'C' + currentUser["swish-nr"] + ';' + currentProduct["price"] + ";" + currentProduct["title"] + ";0")
+    		  var $form = $(this);
+    		  $.post($form.attr("action"), $form.serialize()).then(function() {
+    		    alert("Thank you!");
+    		  });
 		});
       </script>
     </body>
