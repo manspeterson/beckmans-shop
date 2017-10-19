@@ -1,0 +1,5 @@
+namn: Måns Peterson
+email: mans.peterson@edu.beckmans.se
+swish-nr: 0703550605
+klass: VK20
+link: 2504/mans-peterson/
