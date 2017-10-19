@@ -58,9 +58,10 @@
 
               $.ajax(settings).done(function (response) {
                 // $('#qr-code').attr('value', response);
-                document.getElementById('qr-code').setAttribute("value", response);
+                // document.getElementById('qr-code').setAttribute("value", response);
                 // console.log(response);
                 console.log(response.data);
+                console.log(btoa(unescape(encodeURIComponent(response))));
               });
         });
       	$("#form").submit(function(e) {
