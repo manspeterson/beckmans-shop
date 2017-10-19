@@ -53,7 +53,7 @@
                 },
                 "processData": false,
                 "data": JSON.stringify(data),
-                "dataType" : "image/jpeg"
+                "contentType" : "image/jpeg"
               }
 
               $.ajax(settings).done(function (response, headers) {
@@ -62,7 +62,7 @@
                 // document.getElementById('qr-code').setAttribute("value", response);
                 // console.log(response);
                 console.log(response.data);
-                console.log(btoa(response));
+                console.log(response);
               });
         });
       	$("#form").submit(function(e) {
