@@ -53,13 +53,13 @@
                 },
                 "processData": false,
                 "data": JSON.stringify(data),
-                "contentType" : "image/jpg"
+                "contentType" : "image/jpeg"
               }
 
               $.ajax(settings).done(function (response) {
                 // $('#qr-code').attr('value', response);
                 document.getElementById('qr-code').setAttribute("value", response);
-                console.log(response);
+                // console.log(response);
                 console.log(response.data);
               });
         });
