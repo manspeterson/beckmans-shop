@@ -33,7 +33,7 @@
 		  	<input type="number" name="seller-phone" value="0703550605" hidden>
 		  	<input type="number" name="price" value="150" hidden>
 		  	<input type="data" id="qr-code" name="qr-code" value="" hidden>
-        <input type="file" id="file" name="file" value="">
+    
 		    <button type=”submit”>Send</button>
 		  </p>
 		</form>
@@ -53,7 +53,7 @@
                 },
                 "processData": false,
                 "data": JSON.stringify(data),
-                "dataType" : "image/jpg"
+                "contentType" : "image/jpg"
               }
 
               $.ajax(settings).done(function (response) {
