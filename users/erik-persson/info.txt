@@ -1,4 +1,4 @@
-namn: Måns Peterson
+namn: Erik Persson
 email: mans.peterson@edu.beckmans.se
 swish-nr: 0703550605
 klass: VK20

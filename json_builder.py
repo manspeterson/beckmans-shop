@@ -47,12 +47,14 @@ for user in next(os.walk(base))[1]:
 								# https://images.weserv.nl/?url=henriknygren.se/site/assets/files/2105/barberosgerby_bok_03.1696x0.jpg&w=800&il&q=90
 						if len(productInfo["bilder"]) != 0:
 							products.append(productInfo)
-tags = set();
+tags = set()
 for p in products:
 	for t in p["taggar"].split(', '):
 		tags.add(t.lower())
+tags = list(tags)
+tags.sort()
 
-data =  json.dumps({"users" : users, "products" : products, "taggar" : list(tags)},encoding='utf8', ensure_ascii=False).encode('utf8')
+data =  json.dumps({"users" : users, "products" : products, "taggar" : tags},encoding='utf8', ensure_ascii=False).encode('utf8')
 
 with open('js/data.js', 'w') as f:
 	f.write("var data = " + data + ";")

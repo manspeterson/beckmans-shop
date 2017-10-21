@@ -22,7 +22,7 @@
 
           body  {
             font-family: "Univers LT Std", sans-serif;
-            font-size: 0.9vw;
+            font-size: 0.95vw;
             line-height: 1.4;
             font-weight: normal;
             float: left;
@@ -100,7 +100,7 @@
             position: absolute;
           }
           main article aside {
-            padding-top: 1.45vw;
+            padding-top: 1.81vw;
           }
           main article.current header {
             position: fixed;
@@ -131,11 +131,12 @@
             height: 100%;
           }
           #overview aside {
-            padding-left: 0.5%;
+            padding: 0.5%;
             padding-top: 5vh;
           }
           .overview #overview {
             display: block;
+            line-height: 1.6;
           }
 
         </style>
@@ -191,19 +192,31 @@
           }
         }
         function populateOverview(){
-          productList = []
+          info = "Beckmans Shop (BS) är en oberoende marknadsplats för Beckmansstudenter där de erbjuder sina verk till försäljning. <br><br>Alla priser är inkl. frakt (inom Sverige) och betalning sker via Swish. Varje student ansvarar själv för försäljning och skatt.<br><br>Webshopen är designad och utvecklad av Måns Peterson."
 
+          productList = []
           for (x in data.products) {
-            productList.push(data.products[x]["titel"])
+            productList.push(toTitleCase(data.products[x]["titel"]));
           }
           productList.sort();
-          console.log(productList);
+          
+          userList = []
+          for (x in data.users) {
+            userList.push(toTitleCase(data.users[x].namn));
+          }
+          userList.sort();
+           for (x in data.taggar) data.taggar[x] = toTitleCase(data.taggar[x]);
+
           titlar = $('<div class="col-1"/>').addClass('titlar').html(productList.join("<br/>"));
+          designers = $('<div class="col-1"/>').addClass('designers').html(userList.join("<br/>"));
+          taggar = $('<div class="col-1"/>').addClass('taggar').html(data.taggar.join("<br/>"));
+          information = $('<div class="col-1"/>').addClass('info').html(info);
+          pris = $('<div class="col-1"/>').addClass('pris').html(["<500 SEK", "500–1 000 SEK", ">1 000 SEK"].join("<br/>"));
           // designers = $('<div class="col-1"/>').addClass('designer').text(toTitleCase(p["designer"]));
           // taggar = $('<div class="col-1"/>').addClass('taggar').text(toTitleCase(p["taggar"]));
           // pris = $('<div class="col-1"/>').addClass('pris').text(toTitleCase(p["pris"] + "") + " SEK");
           // info = $('<div class="col-1"/>').addClass('info').text("Mer Info/Köp");
-          $('#overview aside').first().append(titlar);//, designer, taggar, pris, info);
+          $('#overview aside').first().append(titlar, designers, taggar, pris, information);//, designer, taggar, pris, info);
         }
 
         var size = ["small", "big"];
