@@ -1,5 +1,6 @@
-title: Bebis & anka
+titel: Bebis & anka
 pris: 250
+taggar: Affisch, Poster
 ---
 20 ex
 50x70cm

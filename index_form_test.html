@@ -1,0 +1,109 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <!--<link rel="stylesheet" href="css/main.css"> -->
+        <style type="text/css">
+        	.hidden {
+        		display: none;
+        	}
+        </style>
+    </head>
+    <body>
+ 
+        <p>Hello world! This is HTML5 Boilerplate.</p>
+        <form id="form" name="buy" netlify-honeypot="bot-field" action="thank-you" netlify>
+		  <p class="hidden">
+		    <label>Don’t fill this out: <input name="bot-field"></label>
+		  </p>
+		  <p>
+		    <label>Email: <input type="email" name="buyer-email"></label>
+		    <label>Name: <input type="text" name="buyer-name"></label>
+		    <label>Address: <input type="text" name="buyer-address"></label>
+		  </p>
+		  <p>
+		  	<input type="email" name="seller-email" value="mans.peterson@edu.beckmans.se" hidden>
+		  	<input type="number" name="seller-phone" value="0703550605" hidden>
+		  	<input type="number" name="price" value="150" hidden>
+		  	<input type="text" id="qr-code" name="qr-code" value="" hidden>
+    
+		    <button type=”submit”>Send</button>
+		  </p>
+		</form>
+
+    <script src="js/jquery-3.2.1.min.js"></script>
+      <script type="text/javascript">
+        currentUser = {"swish-nr" : "0704550605"}
+        currentProduct = {"title" : "anka", "price" : 150}
+          function base64encode(str) {
+              var CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+              var out = "", i = 0, len = str.length, c1, c2, c3;
+              while (i < len) {
+                  c1 = str.charCodeAt(i++) & 0xff;
+                  if (i == len) {
+                      out += CHARS.charAt(c1 >> 2);
+                      out += CHARS.charAt((c1 & 0x3) << 4);
+                      out += "==";
+                      break;
+                  }
+                  c2 = str.charCodeAt(i++);
+                  if (i == len) {
+                      out += CHARS.charAt(c1 >> 2);
+                      out += CHARS.charAt(((c1 & 0x3)<< 4) | ((c2 & 0xF0) >> 4));
+                      out += CHARS.charAt((c2 & 0xF) << 2);
+                      out += "=";
+                      break;
+                  }
+                  c3 = str.charCodeAt(i++);
+                  out += CHARS.charAt(c1 >> 2);
+                  out += CHARS.charAt(((c1 & 0x3) << 4) | ((c2 & 0xF0) >> 4));
+                  out += CHARS.charAt(((c2 & 0xF) << 2) | ((c3 & 0xC0) >> 6));
+                  out += CHARS.charAt(c3 & 0x3F);
+              }
+              return out;
+          }
+
+          function swishQR(data) {
+            console.log("data:image/png;base64," + base64encode(data));
+          }
+
+
+        $(function() {
+          //   data = {"message" : {"value" : "asfjasfjasppa"}, "payee" : {"value" : "0704550605"}, "amount" : {"value" : 100}, "format" : "png", "size" : 400};
+          //   $.ajax({
+          //     url: '/swish-api/',
+          //     type: 'post',
+          //     headers: {
+          //         "content-type": "application/json; charset=utf-8",
+          //         "cache-control": "no-cache",
+          //         "accept": "application/json; image/png",
+          //         "Authorization" : "Basic " +  btoa("user:pw"),
+          //     },
+          //     data: JSON.stringify(data),
+          //     mimeType: "text/plain; charset=x-user-defined",
+          //     responseType: 'arraybuffer',
+          //     success: swishQR,
+          //     error: function (request, status, error) {
+          //       console.log('Något gick snett');
+          //     },
+          // });
+
+        });
+    	$("#form").submit(function(e) {
+    		  e.preventDefault();
+          $('#qr-code').attr('value', 'C' + currentUser["swish-nr"] + ';' + currentProduct["price"] + ";" + currentProduct["title"] + ";0")
+    		  var $form = $(this);
+    		  $.post($form.attr("action"), $form.serialize()).then(function() {
+    		    alert("Thank you!");
+    		  });
+		});
+      </script>
+    </body>
+</html>

@@ -10,100 +10,268 @@
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
         <!--<link rel="stylesheet" href="css/main.css"> -->
+        <script src="js/data.js"></script>
         <style type="text/css">
+          /* RESET */
+  *,*:before,*:after{box-sizing:border-box;}html,body{margin:0;height:100%;}a{text-decoration:inherit;color:inherit;}p,h1,h2,h3,h4,h5,h6{margin:0;font-size:inherit;font-weight:inherit;}ul,ol{margin:0;padding:0;list-style-type:none;}img{display:inline-block;border:0;max-width:100%;height:auto;vertical-align:middle;}figure{margin:0;}
+
+
         	.hidden {
         		display: none;
         	}
+
+          body  {
+            font-family: "Univers LT Std", sans-serif;
+            font-size: 0.9vw;
+            line-height: 1.4;
+            font-weight: bold;
+            float: left;
+            width: 100%;
+            height: 100%;
+            /*padding: 0.5% 0.5% 0.5% 0;*/
+          }
+          header {
+            width: 100%;
+            float:left;
+            background: white;
+          }
+          body > header {
+            position: fixed;
+            left: 0%;
+            top: 0%;
+            padding: 0.5%;
+            z-index: 100;
+          }
+
+          main header {
+            padding: 0.5%;
+            padding-top: 0;
+          }
+
+          .col-margin {
+            width: 2%;
+            float:left;
+          }
+
+          .col-1 {
+            width: 20%;
+            float:left;
+            padding-left: 2%;
+          }
+          body > header .col-1:nth-child(2) {
+            width: 18%;
+            padding-left:0;
+          }
+
+          article img {
+            width: auto;
+            height: auto;
+            padding: 0 0 0.5% 0.5%;
+          }
+
+          .small article img {
+            max-height: 30vw;
+            cursor: zoom-in;
+          }
+          .big article img {
+            /*max-height: 50vw;*/
+            max-height: 63vw;
+
+            cursor: zoom-out;
+          }
+
+          article {
+            padding-bottom: 5vh;
+          }
+          main {
+            padding-top: 5vh;
+            padding-bottom: 30vh;
+          }
+
+          main article aside {
+            padding-right: 0.5%;
+          }
+
+          .current {
+            /*font-style: italic;*/
+          }
+          main article header {
+            position: absolute;
+          }
+          main article aside {
+            padding-top: 1.45vw;
+          }
+          main article.current header {
+            position: fixed;
+            top: 2%;
+          }
+
+          main article.prev header {
+            opacity: 0;
+          }
+
+          body.overview, body.overview > header {
+            background: black;
+            color: white;
+          }
+          body.overview {
+            height: 100vw;
+            overflow: hidden;
+          }
+
+          #overview {
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 10;
+            background: black;
+            display: none;
+            width: 100%;
+            height: 100%;
+          }
+          #overview aside {
+            padding-left: 0.5%;
+            padding-top: 5vh;
+          }
+          .overview #overview {
+            display: block;
+          }
+
         </style>
     </head>
-    <body>
- 
-        <p>Hello world! This is HTML5 Boilerplate.</p>
-        <form id="form" name="buy" netlify-honeypot="bot-field" action="thank-you" netlify>
-		  <p class="hidden">
-		    <label>Don’t fill this out: <input name="bot-field"></label>
-		  </p>
-		  <p>
-		    <label>Email: <input type="email" name="buyer-email"></label>
-		    <label>Name: <input type="text" name="buyer-name"></label>
-		    <label>Address: <input type="text" name="buyer-address"></label>
-		  </p>
-		  <p>
-		  	<input type="email" name="seller-email" value="mans.peterson@edu.beckmans.se" hidden>
-		  	<input type="number" name="seller-phone" value="0703550605" hidden>
-		  	<input type="number" name="price" value="150" hidden>
-		  	<input type="text" id="qr-code" name="qr-code" value="" hidden>
-    
-		    <button type=”submit”>Send</button>
-		  </p>
-		</form>
-
+    <body class="small">
+      <header>
+          <div class="col-margin">
+              <h1>BS</h1></div>
+          <div class="col-1 current"><a href="">Produkter</a></div>
+          <div class="col-1"><a href="">Designers</a></div>
+          <div class="col-1"><a href="">Taggar</a></div>
+          <div class="col-1"><a href="">Pris</a></div>
+          <div class="col-1"><a href="">Information</a></div>
+      </header>
+  <main></main>
+  <section id="overview"><aside></aside></section>
+      
     <script src="js/jquery-3.2.1.min.js"></script>
       <script type="text/javascript">
-        currentUser = {"swish-nr" : "0704550605"}
-        currentProduct = {"title" : "anka", "price" : 150}
-          function base64encode(str) {
-              var CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-              var out = "", i = 0, len = str.length, c1, c2, c3;
-              while (i < len) {
-                  c1 = str.charCodeAt(i++) & 0xff;
-                  if (i == len) {
-                      out += CHARS.charAt(c1 >> 2);
-                      out += CHARS.charAt((c1 & 0x3) << 4);
-                      out += "==";
-                      break;
-                  }
-                  c2 = str.charCodeAt(i++);
-                  if (i == len) {
-                      out += CHARS.charAt(c1 >> 2);
-                      out += CHARS.charAt(((c1 & 0x3)<< 4) | ((c2 & 0xF0) >> 4));
-                      out += CHARS.charAt((c2 & 0xF) << 2);
-                      out += "=";
-                      break;
-                  }
-                  c3 = str.charCodeAt(i++);
-                  out += CHARS.charAt(c1 >> 2);
-                  out += CHARS.charAt(((c1 & 0x3) << 4) | ((c2 & 0xF0) >> 4));
-                  out += CHARS.charAt(((c2 & 0xF) << 2) | ((c3 & 0xC0) >> 6));
-                  out += CHARS.charAt(c3 & 0x3F);
-              }
-              return out;
+        function shuffleArray(array) {
+            for (var i = array.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+        function toTitleCase(str) {
+          return str.toLowerCase().split(' ').map(function(word) {
+            return word.replace(word[0], word[0].toUpperCase());
+          }).join(' ');
+        }
+        function addProduct(p){
+          article = $('<article/>');
+          header = $('<header/>');
+          titel = $('<div class="col-1"/>').addClass('titel').text(toTitleCase(p["titel"]));
+          designer = $('<div class="col-1"/>').addClass('designer').text(toTitleCase(p["designer"]));
+          taggar = $('<div class="col-1"/>').addClass('taggar').text(toTitleCase(p["taggar"]));
+          pris = $('<div class="col-1"/>').addClass('pris').text(toTitleCase(p["pris"] + "") + " SEK");
+          info = $('<div class="col-1"/>').addClass('info').text("Mer Info/Köp");
+          header.append(titel, designer, taggar, pris, info);
+          aside = $('<aside class="images"/>');
+          for (img in p["bilder"]){
+            i = $('<img/>').attr('src', p["bilder"][img]);
+            aside.append(i);
           }
+          article.append(header, aside);
+          $('main').first().append(article);
+        }
 
-          function swishQR(data) {
-            console.log("data:image/png;base64," + base64encode(data));
+        function populateProducts(ps){
+          for (x in ps){
+            addProduct(ps[x]);
           }
+        }
+        function populateOverview(){
+          productList = []
+
+          for (x in data.products) {
+            productList.push(data.products[x]["titel"])
+          }
+          productList.sort();
+          console.log(productList);
+          titlar = $('<div class="col-1"/>').addClass('titlar').html(productList.join("<br/>"));
+          // designers = $('<div class="col-1"/>').addClass('designer').text(toTitleCase(p["designer"]));
+          // taggar = $('<div class="col-1"/>').addClass('taggar').text(toTitleCase(p["taggar"]));
+          // pris = $('<div class="col-1"/>').addClass('pris').text(toTitleCase(p["pris"] + "") + " SEK");
+          // info = $('<div class="col-1"/>').addClass('info').text("Mer Info/Köp");
+          $('#overview aside').first().append(titlar);//, designer, taggar, pris, info);
+        }
+
+        var size = ["small", "big"];
+        var counter = 0;
+        var lastScroll = 0;
+        var headerClicked = false;
+        prevPos = $('header').height();
+
+        data.products = shuffleArray(data.products);
+        populateProducts(data.products);
+        $('main article').first().addClass('next');
+        populateOverview()
 
 
-        $(function() {
-          //   data = {"message" : {"value" : "asfjasfjasppa"}, "payee" : {"value" : "0704550605"}, "amount" : {"value" : 100}, "format" : "png", "size" : 400};
-          //   $.ajax({
-          //     url: '/swish-api/',
-          //     type: 'post',
-          //     headers: {
-          //         "content-type": "application/json; charset=utf-8",
-          //         "cache-control": "no-cache",
-          //         "accept": "application/json; image/png",
-          //         "Authorization" : "Basic " +  btoa("user:pw"),
-          //     },
-          //     data: JSON.stringify(data),
-          //     mimeType: "text/plain; charset=x-user-defined",
-          //     responseType: 'arraybuffer',
-          //     success: swishQR,
-          //     error: function (request, status, error) {
-          //       console.log('Något gick snett');
-          //     },
-          // });
+        $('img').click(function(e){
+          e.preventDefault();
+          var scrollTop     = $(window).scrollTop(),
+              elementOffset = $(this).offset().top,
+              distance      = (elementOffset - scrollTop);
+          prev = size[counter % 2]; 
+          counter++; next = size[counter % 2]; 
+          $('body').removeClass(prev); 
+          $('body').addClass(next);
+          newOffset = $(this).offset().top;
+          $(window).scrollTop(newOffset - distance);
+        });
+
+        $('body > header a').on('mouseenter', function(e){
+          e.preventDefault();
+          $('body').addClass('overview');
 
         });
-    	$("#form").submit(function(e) {
-    		  e.preventDefault();
-          $('#qr-code').attr('value', 'C' + currentUser["swish-nr"] + ';' + currentProduct["price"] + ";" + currentProduct["title"] + ";0")
-    		  var $form = $(this);
-    		  $.post($form.attr("action"), $form.serialize()).then(function() {
-    		    alert("Thank you!");
-    		  });
-		});
+        $('body > header a').on('mouseleave', function(e){
+          e.preventDefault();
+          if (!headerClicked) $('body').removeClass('overview');
+        })
+        $('body > header a').on('click', function(e){
+          e.preventDefault();
+          headerClicked = !headerClicked;
+          if (!headerClicked) {$('body').removeClass('overview'); $('h1').first().text('BS');
+          } else {
+            $('h1').first().text('X');
+            $('body').addClass('overview');
+          }
+        })
+
+        $(window).scroll(function(){
+          header = $('body > header').first();
+          scrollDown = lastScroll - $(window).scrollTop() < 0 ? true : false;
+          lastScroll = $(window).scrollTop();
+  
+          headerBounding = header[0].getBoundingClientRect();
+          if (!scrollDown && $('main article.current').length != 0) {
+            current = $('main article.current').last();
+            currentBounding = current[0].getBoundingClientRect();
+            if (headerBounding.top <= currentBounding.top + currentBounding.height && headerBounding.top + headerBounding.height > currentBounding.top) {}else {
+                current.removeClass('current').addClass('next')
+                current.find('header').css('top','auto');
+            }
+          } else if (scrollDown && $('main article.next').length != 0) {
+            next = $('main article.next').first();
+            nextBounding = next[0].getBoundingClientRect();
+            if (headerBounding.top <= nextBounding.top + nextBounding.height && headerBounding.top + headerBounding.height > nextBounding.top) {
+              next.addClass('current').removeClass('next');
+              next.find('header').first().css('top', headerBounding.height + 'px');
+              if (next.nextUntil().length != 0) next.next().addClass('next');
+            }
+          }
+        })
       </script>
     </body>
 </html>
