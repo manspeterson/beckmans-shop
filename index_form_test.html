@@ -96,14 +96,7 @@
           // });
 
         });
-    	$("#form").submit(function(e) {
-    		  e.preventDefault();
-          $('#qr-code').attr('value', 'C' + currentUser["swish-nr"] + ';' + currentProduct["price"] + ";" + currentProduct["title"] + ";0")
-    		  var $form = $(this);
-    		  $.post($form.attr("action"), $form.serialize()).then(function() {
-    		    alert("Thank you!");
-    		  });
-		});
+    	
       </script>
     </body>
 </html>

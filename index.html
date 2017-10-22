@@ -20,7 +20,7 @@
         		display: none;
         	}
 
-          body  {
+          body, input  {
             font-family: "Univers LT Std", sans-serif;
             font-size: 0.95vw;
             line-height: 1.4;
@@ -43,6 +43,12 @@
             padding: 0.5%;
             z-index: 100;
           }
+
+          input {
+            border: none;
+            outline: none;
+          }
+          
 
           main header {
             padding: 0.5%;
@@ -74,24 +80,31 @@
             max-height: 30vw;
             cursor: zoom-in;
           }
-          .big article img {
+          .big article img, .productView.small article img {
             /*max-height: 50vw;*/
             max-height: 63vw;
 
             cursor: zoom-out;
           }
+          .productView article img {
+            cursor: initial !important;
+          }
 
           article {
-            padding-bottom: 5vh;
+            padding-bottom: 5vw;
           }
           main {
-            padding-top: 5vh;
+            padding-top: 5vw;
             padding-bottom: 30vh;
           }
 
           main article aside {
             padding-right: 0.5%;
+            width: 100%;
+
           }
+
+      
 
           .current {
             /*font-style: italic;*/
@@ -130,14 +143,49 @@
             width: 100%;
             height: 100%;
           }
-          #overview aside {
+          #overview aside, main article aside.buy-info {
             padding: 0.5%;
-            padding-top: 5vh;
+            padding-top: 5vw;
           }
+  
+          main article aside.buy-info {
+            float: left;
+            padding-bottom: 3.19vh;
+            display: none;
+          }
+
           .overview #overview {
             display: block;
             line-height: 1.6;
           }
+
+          button {
+            border:none;
+            background:none;
+            padding: 0;
+            margin: 0;
+            cursor: pointer;
+            text-align: left;
+            font-size: inherit;
+            line-height: inherit;
+            text-decoration: underline;
+          }
+
+          .productView article, .back {
+            display: none;
+          }
+
+          .productView article.focusProduct, .productView main article aside.buy-info, .productView .back {
+            display: block;
+          }
+          .productView main {
+            padding-top: 0.5%;
+          }
+
+          .back, .productView .info {
+            display: none;
+          }
+
 
         </style>
     </head>
@@ -175,14 +223,50 @@
           designer = $('<div class="col-1"/>').addClass('designer').text(toTitleCase(p["designer"]));
           taggar = $('<div class="col-1"/>').addClass('taggar').text(toTitleCase(p["taggar"]));
           pris = $('<div class="col-1"/>').addClass('pris').text(toTitleCase(p["pris"] + "") + " SEK");
-          info = $('<div class="col-1"/>').addClass('info').text("Mer Info/Köp");
+          info = $('<div class="col-1"/>')
+          infoText = $('<a href="info"/>').addClass('info').text("Mer Info/Köp");
+          backText = $('<a href="back"/>').addClass('back').text("Gå Tillbaka");
+          info.append(infoText, backText);
+
           header.append(titel, designer, taggar, pris, info);
+
+          kopInfo = $('<aside class="buy-info"/>');
+          u = data.users[p["designer-slug"]]
+
+          beskrivning = $('<div class="col-1"/>').addClass('beskrivning').html(p["beskrivning"].replace(/\n/g, "<br />"));
+          userInfo = $('<div class="col-1"/>').addClass('designer-info').html(u.klass + "<br>Mail, Portfolio");
+
+          formContent = $('<form class="buy-form" netlify/>').attr("name", 'buy').attr('netlify-honeypot', 'bot-field').attr('action', 'thank-you');
+          formLeftCol = $('<div class="col-1"/>');
+          formRightCol = $('<div class="col-1"/>');
+          // formContent.append('<p class="hidden"><label>Don’t fill this out: <input name="bot-field"></label></p>')
+
+          nameInput = $('<input/>').attr('type', "text").attr('name','buyer-name').attr('placeholder', 'För- & Efternamn');
+          mailInput = $('<input/>').attr('type', "email").attr('name','buyer-email').attr('placeholder', 'E-mail');
+          streetInput = $('<input/>').attr('type', "text").attr('name','buyer-address').attr('placeholder', 'Leveransadress');
+          postalCodeInput = $('<input/>').attr('type', "text").attr('name','buyer-postalcode').attr('placeholder', 'Postnummer & Ort').addClass('small');
+    
+           sellerMailInput = $('<input hidden/>').attr('type', "email").attr('name','seller-email').attr('value', u.email);
+           sellerPhoneInput = $('<input hidden/>').attr('type', "number").attr('name','seller-phone').attr('value', u["swish-nr"]);
+           sellerSumInput = $('<input hidden/>').attr('type', "number").attr('name','price').attr('value', p.pris);
+           sellerProductInput = $('<input hidden/>').attr('type', "text").attr('name','product').attr('value', p.titel);
+           sellerCodeInput = $('<input hidden/>').attr('type', "text").attr('name','qr-code').attr('value', 'C' + u["swish-nr"] + ';' + u.pris + ";" + p.titel + ";0");
+
+           formLeftCol.append(nameInput, mailInput, streetInput, postalCodeInput, sellerMailInput, sellerPhoneInput, sellerSumInput, sellerProductInput, sellerCodeInput);
+
+           
+           buyButton = $('<button />').attr('type', 'submit').text("Köp");
+           formRightCol.append(buyButton);
+
+           formContent.append(formLeftCol, formRightCol);
+
+          kopInfo.append(beskrivning, userInfo, formContent);
           aside = $('<aside class="images"/>');
           for (img in p["bilder"]){
             i = $('<img/>').attr('src', p["bilder"][img]);
             aside.append(i);
           }
-          article.append(header, aside);
+          article.append(header, kopInfo, aside);
           $('main').first().append(article);
         }
 
@@ -210,7 +294,7 @@
           titlar = $('<div class="col-1"/>').addClass('titlar').html(productList.join("<br/>"));
           designers = $('<div class="col-1"/>').addClass('designers').html(userList.join("<br/>"));
           taggar = $('<div class="col-1"/>').addClass('taggar').html(data.taggar.join("<br/>"));
-          information = $('<div class="col-1"/>').addClass('info').html(info);
+          information = $('<div class="col-1"/>').addClass('siteinfo').html(info);
           pris = $('<div class="col-1"/>').addClass('pris').html(["<500 SEK", "500–1 000 SEK", ">1 000 SEK"].join("<br/>"));
           // designers = $('<div class="col-1"/>').addClass('designer').text(toTitleCase(p["designer"]));
           // taggar = $('<div class="col-1"/>').addClass('taggar').text(toTitleCase(p["taggar"]));
@@ -222,13 +306,44 @@
         var size = ["small", "big"];
         var counter = 0;
         var lastScroll = 0;
+        var scrollMemory = 0;
         var headerClicked = false;
         prevPos = $('header').height();
 
         data.products = shuffleArray(data.products);
         populateProducts(data.products);
+
         $('main article').first().addClass('next');
-        populateOverview()
+        populateOverview();
+        $(window).scrollTop(0);
+
+        $("form.buy-form").submit(function(e) {
+              e.preventDefault();
+              var $form = $(this);
+              $.post($form.attr("action"), $form.serialize()).then(function() {
+                alert("Thank you!");
+              });
+        });
+
+        $('.info').click(function(e){
+          e.preventDefault();
+          scrollMemory = $(window).scrollTop();
+          $('body').addClass('productView');
+          $(this).parent().parent().parent().addClass('focusProduct');
+          $(this).parent().parent().parent().addClass('current');
+          $(window).scrollTop(0);
+          $(this).parent().parent().css('top', $('body > header').first()[0].getBoundingClientRect().height + 'px');
+        })
+
+        $('.back').click(function(e){
+          e.preventDefault();
+          $('body').removeClass('productView');
+          $(this).parent().parent().parent().removeClass('focusProduct');
+          $(this).parent().parent().parent().removeClass('current').addClass('next');
+          $(window).scrollTop(scrollMemory);
+          $(this).parent().parent().css('top', 'auto');
+        })
+
 
 
         $('img').click(function(e){
@@ -286,6 +401,10 @@
             }
           }
         })
+
+        $(function(){
+          $(window).scrollTop(0);
+        });
       </script>
     </body>
 </html>
