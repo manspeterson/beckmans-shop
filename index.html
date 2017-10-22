@@ -126,7 +126,7 @@
           main article.current:last-child header {
             visibility: visible;
           }*/
-          
+
           main article.prev header {
             opacity: 0;
           }
@@ -189,10 +189,74 @@
             padding-top: 0.5%;
           }
 
-          .back, .productView .info {
+          .back, .productView a.info {
             display: none;
           }
 
+          .mobile {
+            display: none;
+          }
+          
+          @media all and (max-width: 768px) {
+            body, input {
+              font-size: 2.5vw;
+            }
+            h1 {
+              display: none;
+            }
+
+            body > header .col-1:nth-child(2) {
+              padding-left: 2%;
+              width: 25%;
+            }
+
+            body > header .col-1:nth-child(5), main article header .col-1.pris {
+              width: 19%;
+            }
+            body > header .col-1:nth-child(6), main article header .col-1.info {
+              width: 4%;
+              text-align: right;
+            }
+
+            body > header {
+              padding-top: 2%;
+              padding-bottom: 2%;
+            }
+            .col-1 {
+              width: 25%;
+            }
+
+            main article aside {
+            padding-top: 8.0vw;
+           }
+
+           main, #overview aside {
+              padding-top: 12vw;
+           }
+           main article aside.buy-info {
+            padding-top: 16vw;
+           }
+
+           .desktop {
+            display: none;
+           }
+
+           .mobile {
+            display: block;
+           }
+
+           .siteinfo span.mobile {
+            padding-top: 20vw;
+            padding-bottom: 7vw;
+           }
+
+           .siteinfo {
+              width: 50%;
+           }
+
+           
+
+          }
 
         </style>
     </head>
@@ -204,7 +268,7 @@
           <div class="col-1"><a href="">Designers</a></div>
           <div class="col-1"><a href="">Taggar</a></div>
           <div class="col-1"><a href="">Pris</a></div>
-          <div class="col-1"><a href="">Information</a></div>
+          <div class="col-1"><a href=""><span class="desktop">Information</span><span class="mobile">+</span></a></div>
       </header>
   <main></main>
   <section id="overview"><aside></aside></section>
@@ -230,9 +294,9 @@
           designer = $('<div class="col-1"/>').addClass('designer').text(toTitleCase(p["designer"]));
           taggar = $('<div class="col-1"/>').addClass('taggar').text(toTitleCase(p["taggar"]));
           pris = $('<div class="col-1"/>').addClass('pris').text(toTitleCase(p["pris"] + "") + " SEK");
-          info = $('<div class="col-1"/>')
-          infoText = $('<a href="info"/>').addClass('info').text("Mer Info/Köp");
-          backText = $('<a href="back"/>').addClass('back').text("Gå Tillbaka");
+          info = $('<div class="col-1"/>').addClass('info');
+          infoText = $('<a href="#info"/>').addClass('info').html("<span class='desktop'>Mer Info/Köp</span><span class='mobile'>→</span>");
+          backText = $('<a href="#back"/>').addClass('back').html("<span class='desktop'>Gå Tillbaka</span><span class='mobile'>←</span>");
           info.append(infoText, backText);
 
           header.append(titel, designer, taggar, pris, info);
@@ -283,7 +347,7 @@
           }
         }
         function populateOverview(){
-          info = "Beckmans Shop (BS) är en oberoende marknadsplats för Beckmansstudenter där de erbjuder sina verk till försäljning. <br><br>Alla priser är inkl. frakt (inom Sverige) och betalning sker via Swish. Varje student ansvarar själv för försäljning och skatt.<br><br>Webshopen är designad och utvecklad av Måns Peterson."
+          info = "<span class='mobile'>Information</span>Beckmans Shop (BS) är en oberoende marknadsplats för Beckmansstudenter där de erbjuder sina verk till försäljning. <br><br>Alla priser är inkl. frakt (inom Sverige) och betalning sker via Swish. Varje student ansvarar själv för försäljning och skatt.<br><br>Webshopen är designad och utvecklad av Måns Peterson."
 
           productList = []
           for (x in data.products) {
@@ -332,7 +396,7 @@
               });
         });
 
-        $('.info').click(function(e){
+        $('a.info').click(function(e){
           e.preventDefault();
           scrollMemory = $(window).scrollTop();
           $('body').addClass('productView');
