@@ -389,7 +389,7 @@
         populateOverview();
         $(window).scrollTop(0);
 
-        $("form.buy-form").submit(function(e) {
+        $('body').on('submit','form.buy-form', function(e) {
               e.preventDefault();
               var $form = $(this);
               $.post($form.attr("action"), $form.serialize()).then(function() {
