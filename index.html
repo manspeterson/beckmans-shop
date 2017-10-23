@@ -43,6 +43,7 @@
             top: 0%;
             padding: 0.5%;
             z-index: 100;
+            cursor: pointer;
           }
 
           input {
@@ -265,11 +266,11 @@
       <header>
           <div class="col-margin">
               <h1>BS</h1></div>
-          <div class="col-1 current"><a href="">Produkter</a></div>
-          <div class="col-1"><a href="">Designers</a></div>
-          <div class="col-1"><a href="">Taggar</a></div>
-          <div class="col-1"><a href="">Pris</a></div>
-          <div class="col-1"><a href=""><span class="desktop">Information</span><span class="mobile">+</span></a></div>
+          <div class="col-1 current">Produkter</div>
+          <div class="col-1">Designers</div>
+          <div class="col-1">Taggar</div>
+          <div class="col-1">Pris</div>
+          <div class="col-1"><span class="desktop">Information</span><span class="mobile">+</span></div>
       </header>
   <main></main>
   <section id="overview"><aside></aside></section>
@@ -391,7 +392,9 @@
 
         $('body').on('submit','form.buy-form', function(e) {
               e.preventDefault();
+
               var $form = $(this);
+              console.log($form.serialize())
               $.post($form.attr("action"), $form.serialize()).then(function() {
                 alert("Thank you!");
               });
@@ -431,21 +434,21 @@
           $(window).scrollTop(newOffset - distance);
         });
 
-        $('body > header a').on('mouseenter', function(e){
+        $('body > header').on('mouseenter', function(e){
           e.preventDefault();
-          $('body').addClass('overview');
-
+          // $('body').addClass('overview');
+          if(!headerClicked) $('h1').first().text('[+]');
         });
-        $('body > header a').on('mouseleave', function(e){
+        $('body > header').on('mouseleave', function(e){
           e.preventDefault();
-          if (!headerClicked) $('body').removeClass('overview');
+          if (!headerClicked) $('h1').first().text('BS');
         })
-        $('body > header a').on('click', function(e){
+        $('body > header').on('click', function(e){
           e.preventDefault();
           headerClicked = !headerClicked;
           if (!headerClicked) {$('body').removeClass('overview'); $('h1').first().text('BS');
           } else {
-            $('h1').first().text('X');
+            $('h1').first().text('[–]');
             $('body').addClass('overview');
           }
         })
